@@ -151,14 +151,7 @@ f32 DynamicsConductor::virtual_3(DynCarState *ref, DynCarState *st, f32 scale)
         factor = 1.3f;
 #endif
 
-    if (settings::rubberband(settings::Rubberband::carScaling))
-    {
-        st->timeScale = factor * boost.scale;
-    }
-    else
-    {
-		st->timeScale = factor;
-    }
+    st->timeScale = factor * boost.scale;
     return factor;
 }
 

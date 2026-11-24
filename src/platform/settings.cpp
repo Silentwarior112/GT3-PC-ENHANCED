@@ -193,9 +193,9 @@ const char *const kCarTuneKeys[kCarTunes][2] = {{"TireWearPlayer", "TireWearEnem
                                                 {"GripPlayer", "GripEnemies"}};
 
 const char kRubberband[] = "Rubberband";
-const char *const kRubberbandKeys[kRubberbandCount] = {"SpeedBoost", "SpeedSlow", "SpeedScaling"};
-const char *const kRubberbandNames[kRubberbandCount] = {"speed boost", "speed slow", "speed scaling"};
-std::atomic<bool> g_rubberband[kRubberbandCount] = {{true}, {true}, {true}};
+const char *const kRubberbandKeys[kRubberbandCount] = {"SpeedBoost", "SpeedSlow"};
+const char *const kRubberbandNames[kRubberbandCount] = {"speed boost", "speed slow"};
+std::atomic<bool> g_rubberband[kRubberbandCount] = {{true}, {true}};
 
 int clamp_car_tune(CarTune t, int p)
 {

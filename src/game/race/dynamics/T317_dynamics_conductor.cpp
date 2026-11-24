@@ -623,7 +623,7 @@ static f32 boost_chain_bound(DynamicsConductor *dc, DynCarState *st, f32 factor)
         factor = hi;
     else
         return factor;
-    st->timeScale = settings::rubberband(settings::Rubberband::carScaling) ? factor * b->scale : factor;
+    st->timeScale = factor * b->scale;
     return factor;
 }
 

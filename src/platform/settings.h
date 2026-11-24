@@ -1061,8 +1061,8 @@ void texture_cache(char *out, int n);
 
 /* PC (2026-11-23): [AI] Rubberbanding settings.
  * Enables/disables speed boosting/slowing for AI. Any thread. */
-enum class Rubberband { speedBoost, speedSlow, carScaling };
-constexpr int kRubberbandCount = 3;
+enum class Rubberband { speedBoost, speedSlow };
+constexpr int kRubberbandCount = 2;
 bool rubberband(Rubberband c);
 void set_rubberband(Rubberband c, bool on);
 
