@@ -907,15 +907,13 @@ void load()
         if (!line.empty())
             pclog::write("settings: surfaces: %s", line.c_str());
     }
-    {
-        g_speedUnit = read_unit("SpeedUnit", kSpeedUnitNames, kSpeedUnits);
-        g_powerUnit = read_unit("PowerUnit", kPowerUnitNames, kPowerUnits);
-        g_torqueUnit = read_unit("TorqueUnit", kTorqueUnitNames, kTorqueUnits);
-        pclog::write("settings: units speed %s, power %s, torque %s (auto: the language's)",
-            g_speedUnit.load() < 0 ? "auto" : kSpeedUnitNames[g_speedUnit.load()],
-            g_powerUnit.load() < 0 ? "auto" : kPowerUnitNames[g_powerUnit.load()],
-            g_torqueUnit.load() < 0 ? "auto" : kTorqueUnitNames[g_torqueUnit.load()]);
-    }
+    g_speedUnit = read_unit("SpeedUnit", kSpeedUnitNames, kSpeedUnits);
+    g_powerUnit = read_unit("PowerUnit", kPowerUnitNames, kPowerUnits);
+    g_torqueUnit = read_unit("TorqueUnit", kTorqueUnitNames, kTorqueUnits);
+    pclog::write("settings: units speed %s, power %s, torque %s (auto: the language's)",
+        g_speedUnit.load() < 0 ? "auto" : kSpeedUnitNames[g_speedUnit.load()],
+        g_powerUnit.load() < 0 ? "auto" : kPowerUnitNames[g_powerUnit.load()],
+        g_torqueUnit.load() < 0 ? "auto" : kTorqueUnitNames[g_torqueUnit.load()]);
 }
 
 int speed_unit() { return g_speedUnit.load(std::memory_order_relaxed); }
