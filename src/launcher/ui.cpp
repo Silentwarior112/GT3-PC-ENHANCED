@@ -143,9 +143,9 @@ const wchar_t kDiscNoneText[] =
 constexpr int kSubTabMinW = 56, kSubTabPad = 14, kSubTabMinPad = 6, kSubTabH = 28, kSongsLineH = 18,
               kSongsOpenW = 170;
 const wchar_t *const kAudioSubNames[2] = {N_(L"Settings"), N_(L"Songs")};
-enum { GAME_GENERAL, GAME_HUD, GAME_CAMERAS, GAME_EXTRAS, GAME_SURFACES, GAME_CHALLENGES, kGameSubs };
+enum { GAME_GENERAL, GAME_HUD, GAME_CAMERAS, GAME_EXTRAS, GAME_SURFACES, GAME_CHALLENGES, GAME_AI, kGameSubs };
 const wchar_t *const kGameSubNames[kGameSubs] = {N_(L"General"), N_(L"HUD"), N_(L"Cameras"), N_(L"Extras"),
-                                                 N_(L"Surfaces"), N_(L"Challenges")};
+                                                 N_(L"Surfaces"), N_(L"Challenges"), N_(L"AI")};
 
 enum : int {
     IDC_INSTALL = 1001,
@@ -1979,6 +1979,14 @@ void build_options()
             {{tr(L"Off"), L"off"}, {tr(L"On"), L"on"}});
         for (size_t i = challenges; i < g.options.size(); i++)
             g.options[i].sub = GAME_CHALLENGES;
+    }
+    /* Game > AI (PC 2026-11-23: settings.h's [Rubberband], game/app/ */
+    {
+        const size_t rubberbanding = g.options.size();
+        add(TAB_GAME, tr(L"Rubberbanding Speedup"), L"Rubberbanding", L"SpeedBoost", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
+        add(TAB_GAME, tr(L"Rubberbanding Slowdown"), L"Rubberbanding", L"SpeedSlow", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
+        for (size_t i = rubberbanding; i < g.options.size(); i++)
+            g.options[i].sub = GAME_AI;
     }
     /* Debug */
     add(TAB_DEBUG, tr(L"Debug console"), L"Debug", L"Console", L"off",

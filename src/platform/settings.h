@@ -239,6 +239,13 @@
  *                           Game > Surfaces, GAME > EXTRAS > SURFACE GRIP /
  *                           SURFACE RESISTANCE)
  *
+ *   [Rubberband]            PC (2026-11-23): AI race speed adjustments (the
+ *                           launcher's Game > AI and the settings menu's
+ *                           GAME > AI; all three options can be changed while
+ *                           a race is in progress):
+ *   SpeedBoost=on | off     boosts cars behind the player according to the race rules
+ *   SpeedSlow=on | off      slows down cars ahead of the player according to the race rules
+ *
  *   [Challenges]            PC (2026-11-14): the challenge modes (the
  *                           launcher's Game > Challenges, the settings menu's
  *                           CHALLENGE MODES, which writes them too; game/app/
@@ -1065,6 +1072,13 @@ int texture_pack_count();
 void texture_pack(int i, char *out, int n);
 void texture_root(char *out, int n);
 void texture_cache(char *out, int n);
+
+/* PC (2026-11-23): [AI] Rubberbanding settings.
+ * Enables/disables speed boosting/slowing for AI. Any thread. */
+enum class Rubberband { speedBoost, speedSlow };
+constexpr int kRubberbandCount = 2;
+bool rubberband(Rubberband c);
+void set_rubberband(Rubberband c, bool on);
 
 const char *mode_name(DisplayMode m);
 

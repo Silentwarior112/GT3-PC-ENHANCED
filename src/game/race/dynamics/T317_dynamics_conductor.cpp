@@ -22,6 +22,7 @@
 #include "game/app/pc_car_tuning.h"         /* PC: pc_car_tuning (its race cache filled before the threads) */
 #include "game/race/dynamics/pc_physics_threads.h"  /* PC: the cars' own steps on worker threads */
 #include "game/race/dynamics/pc_replay_sync.h"      /* PC: [Debug] ReplaySync */
+#include "platform/settings.h"                      /* PC: [AI] Rubberbanding settings */
 // DATA_START 0x0033DB28
 
 // FUNC 0x001F2A10 DynamicsConductor::DynamicsConductor
@@ -611,8 +612,8 @@ void DynamicsConductor::collideWalls(int first)
 static f32 boost_chain_bound(DynamicsConductor *dc, DynCarState *st, f32 factor)
 {
     SlowCarBoost *b = &dc->boost;
-    f32 lo = 1.0f - b->slowGain;
-    f32 hi = b->boostGain + 1.0f;
+    f32 lo = settings::rubberband(settings::Rubberband::speedSlow) ? 1.0f - b->slowGain : 1.0f;
+    f32 hi = settings::rubberband(settings::Rubberband::speedBoost) ? b->boostGain + 1.0f : 1.0f;
 
     if (dc->carCount <= DC_GT3_RACE_CARS)
         return factor;

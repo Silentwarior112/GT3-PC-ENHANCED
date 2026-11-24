@@ -151,6 +151,8 @@ const char *replay_dof_value(int v) { return v == 2 ? N_("OFF") : v == 1 ? N_("R
 template <int C> int rear_get() { return settings::rear_view((settings::RearViewCamera)C) ? 1 : 0; }
 template <int C> void rear_set(int v) { settings::set_rear_view((settings::RearViewCamera)C, v != 0); }
 const char *on_off_value(int v) { return v ? N_("ON") : N_("OFF"); }
+template <settings::Rubberband C> int rubberband_get() { return settings::rubberband(C) ? 1 : 0; }
+template <settings::Rubberband C> void rubberband_set(int v) { settings::set_rubberband(C, v != 0); }
 
 int extra_cameras_get() { return settings::extra_cameras() ? 1 : 0; }
 void extra_cameras_set(int v) { settings::set_extra_cameras(v != 0); }
@@ -1476,6 +1478,11 @@ const Item kItems[] = {
     /* PC (2026-11-14): with CUSTOM (settings::starting_credits_custom) */
     {2, N_("CUSTOM AMOUNT"), N_("THE MONEY A NEW GAME STARTS WITH: 0 .. 999,999,999.\nHOLD LEFT / RIGHT FOR BIGGER STEPS. ENTER: 18,000.\nTHE LAUNCHER'S GAME TAB TAKES A TYPED AMOUNT."),
      0, nullptr, nullptr, nullptr, credits_custom_text, credits_custom_step, credits_custom_edges},
+    {1, N_("AI"), "", kCategory},
+    {2, N_("RUBBERBANDING SPEEDUP"), N_("SPEEDS UP CARS THAT ARE BEHIND THE PLAYER. ENABLED BY THE GAME BY DEFAULT"), 2,
+     rubberband_get<settings::Rubberband::speedBoost>, rubberband_set<settings::Rubberband::speedBoost>, on_off_value},
+    {2, N_("RUBBERBANDING SLOWDOWN"), N_("SLOWS DOWN CARS THAT ARE AHEAD OF THE PLAYER. ENABLED BY THE GAME BY DEFAULT"), 2,
+     rubberband_get<settings::Rubberband::speedSlow>, rubberband_set<settings::Rubberband::speedSlow>, on_off_value},
     {1, N_("HUD"), N_("THE RACE HUD'S WIDTH, SIZE AND METERS. THE REPLAY LOGO.\nITS COLORS."), kCategory},
     {2, N_("RACE HUD MAX WIDTH"), N_("ADJUST SIDE-ANCHORED HUD ELEMENTS."), kHudRatioCount, hud_get,
      hud_set, hud_value},

@@ -193,6 +193,11 @@ const char *const kCarTuneKeys[kCarTunes][2] = {{"TireWearPlayer", "TireWearEnem
                                                 {"PowerPlayer", "PowerEnemies"},
                                                 {"GripPlayer", "GripEnemies"}};
 
+const char kRubberband[] = "Rubberband";
+const char *const kRubberbandKeys[kRubberbandCount] = {"SpeedBoost", "SpeedSlow"};
+const char *const kRubberbandNames[kRubberbandCount] = {"speed boost", "speed slow"};
+std::atomic<bool> g_rubberband[kRubberbandCount] = {{true}, {true}};
+
 int clamp_car_tune(CarTune t, int p)
 {
     const int lo = car_tune_min(t);
@@ -871,6 +876,13 @@ void load()
         if (g_raceCars.load() != kRaceCarsMin || g_raceCarsOverride.load())
             pclog::write("settings: %d cars in a race%s", g_raceCars.load(),
                          g_raceCarsOverride.load() ? " (also the races of fewer)" : "");
+        /* PC (2026-11-23): [AI] Rubberbanding settings. */
+        for (int c = 0; c < kRubberbandCount; c++) {
+            GetPrivateProfileStringA(kRubberband, kRubberbandKeys[c], "on", on, sizeof(on), ini_path().c_str());
+            g_rubberband[c] = _stricmp(on, "on") == 0 || strcmp(on, "1") == 0;
+            if (g_rubberband[c].load())
+                pclog::write("settings: rubberband %s on", kRubberbandNames[c]);
+        }
     }
     {
         bool any = false;
@@ -905,9 +917,9 @@ void load()
     g_powerUnit = read_unit("PowerUnit", kPowerUnitNames, kPowerUnits);
     g_torqueUnit = read_unit("TorqueUnit", kTorqueUnitNames, kTorqueUnits);
     pclog::write("settings: units speed %s, power %s, torque %s (auto: the language's)",
-                 g_speedUnit.load() < 0 ? "auto" : kSpeedUnitNames[g_speedUnit.load()],
-                 g_powerUnit.load() < 0 ? "auto" : kPowerUnitNames[g_powerUnit.load()],
-                 g_torqueUnit.load() < 0 ? "auto" : kTorqueUnitNames[g_torqueUnit.load()]);
+        g_speedUnit.load() < 0 ? "auto" : kSpeedUnitNames[g_speedUnit.load()],
+        g_powerUnit.load() < 0 ? "auto" : kPowerUnitNames[g_powerUnit.load()],
+        g_torqueUnit.load() < 0 ? "auto" : kTorqueUnitNames[g_torqueUnit.load()]);
 }
 
 int speed_unit() { return g_speedUnit.load(std::memory_order_relaxed); }
@@ -1415,6 +1427,22 @@ void texture_cache(char *out, int n)
 {
     if (n > 0)
         snprintf(out, (size_t)n, "%scache\\textures\\", paths::game_dir().c_str());
+}
+
+/* PC (2026-11-23): [AI] Rubberbanding settings. */
+bool rubberband(Rubberband c)
+{
+    const int i = (int)c;
+    return i >= 0 && i < kRubberbandCount && g_rubberband[i].load(std::memory_order_relaxed);
+}
+
+void set_rubberband(Rubberband c, bool on)
+{
+    const int i = (int)c;
+    if (i < 0 || i >= kRubberbandCount || g_rubberband[i].exchange(on) == on)
+        return;
+    WritePrivateProfileStringA(kRubberband, kRubberbandKeys[i], on ? "on" : "off", ini_path().c_str());
+    pclog::write("settings: rubberband %s %s", kRubberbandNames[i], on ? "on" : "off");
 }
 
 void set_menu_race_model_lod(int level)

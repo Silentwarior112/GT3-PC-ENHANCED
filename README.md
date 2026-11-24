@@ -349,6 +349,7 @@ Inside the plugin's folder is `engine.txt`, this allows you to set the mod's tit
   - Gear Shift behavior
   - Car Grip / Power / Tire wear modifiers
   - Surface modifiers
+  - AI rubberbanding: Toggle speed boosts for cars behind you and slowdowns for cars ahead; both are on by default and can be changed during a race
 
 ### Challenge Modes
 - Money Decay: You lose more money each day. Can you stay ahead of the daily tax?

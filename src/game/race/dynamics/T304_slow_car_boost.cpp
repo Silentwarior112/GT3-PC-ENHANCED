@@ -16,6 +16,7 @@
 #include "game/car/physics/car_motion_internal.h"
 #include "game/race/dynamics/T304_slow_car_boost.h"
 #include "game/enhanced.h"                  /* ENH_PHYSICS_CATCHUP_CAP */
+#include "platform/settings.h"              /* PC: [AI] Rubberbanding settings */
 // DATA_START 0x0033C9E8
 
 /* From DynamicsConductor::virtual_20 (its SetSlowCarBoostParameters
@@ -137,10 +138,10 @@ f32 DynamicsConductor::virtual_3(DynCarState *ref, DynCarState *st, f32 scale)
         else
             behind = 0;
         if (behind != 0) {
-            if (boost.boostGain != 0.0f)
+            if (boost.boostGain != 0.0f && settings::rubberband(settings::Rubberband::speedBoost))
                 factor = boost_factor(&boost, st, lapDiff, dist);
         } else {
-            if (boost.slowGain != 0.0f)
+            if (boost.slowGain != 0.0f && settings::rubberband(settings::Rubberband::speedSlow))
                 factor = slow_factor(&boost, st, -lapDiff, -dist);
         }
     }
@@ -149,6 +150,7 @@ f32 DynamicsConductor::virtual_3(DynCarState *ref, DynCarState *st, f32 scale)
     if (1.3f < factor)
         factor = 1.3f;
 #endif
+
     st->timeScale = factor * boost.scale;
     return factor;
 }
