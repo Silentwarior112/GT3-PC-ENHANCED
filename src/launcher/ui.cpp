@@ -1977,18 +1977,12 @@ void build_options()
         for (size_t i = challenges; i < g.options.size(); i++)
             g.options[i].sub = GAME_CHALLENGES;
     }
-    /* Game > Challenges (PC 2026-11-14: settings.h's [Challenges], game/app/
-    * pc_challenge.h; user request) */
+    /* Game > AI (PC 2026-11-23: settings.h's [Rubberband], game/app/ */
     {
-        const size_t challenges = g.options.size();
-        add(TAB_GAME, tr(L"Rubberbanding Speed Boost"), L"Rubberbanding", L"SpeedBoost", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
-        add(TAB_GAME, tr(L"Rubberbanding Speed Slow"), L"Rubberbanding", L"SpeedSlow", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
-        add(TAB_GAME, tr(L"Speed Scaling"), L"Rubberbanding", L"SpeedScaling", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
-        //add(TAB_GAME, tr(L""), L"Challenges", L"MoneyDecay", L"off", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
-        //add(TAB_GAME, tr(L"Car decay"), L"Challenges", L"CarDecay", L"off", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
-        //add(TAB_GAME, tr(L"Course shrinkage"), L"Challenges", L"CourseShrinkage", L"off",
-        //    { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
-        for (size_t i = challenges; i < g.options.size(); i++)
+        const size_t rubberbanding = g.options.size();
+        add(TAB_GAME, tr(L"Rubberbanding Speedup"), L"Rubberbanding", L"SpeedBoost", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
+        add(TAB_GAME, tr(L"Rubberbanding Slowdown"), L"Rubberbanding", L"SpeedSlow", L"on", { { tr(L"Off"), L"off" },{ tr(L"On"), L"on" } });
+        for (size_t i = rubberbanding; i < g.options.size(); i++)
             g.options[i].sub = GAME_AI;
     }
     /* Debug */
